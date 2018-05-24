@@ -6,7 +6,7 @@
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 16:22:46 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 19:03:24 by alikhtor         ###   ########.fr       */
+/*   Updated: 2018/05/24 19:13:12 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char				*ft_width_for_no_spec(char temp, t_fwp *fwp);
 char				*ft_itoa_singed(intmax_t n);
 char				*ft_itoa_base_unsigned(size_t n, int base, int up);
 char				*ft_convert_u_o_x(va_list *ap, int base, t_fwp *fwp);
-char				*ft_replace_empty_chars(char *str);
+char				*ft_replace_empty_chars(char *str, t_fwp *fwp);
 void				ft_o_specificator\
 						(char **printf_str, va_list *ap, t_fwp *fwp);
 void				ft_u_specificator\
