@@ -118,7 +118,7 @@ int				ft_printf(char *fmt, ...)
 	va_list		ap;
 	char		*printf_str;
 	char		*ret;
-	int			len;
+//	int			len;
 
 	fwp.counter = 0;
 	printf_str = ft_strnew(100);
@@ -126,12 +126,12 @@ int				ft_printf(char *fmt, ...)
 	while (*fmt)
 		ft_parse_fmt(&fmt, &printf_str, &ap, &fwp);
 	va_end(ap);
-	ret = ft_replace_empty_chars(printf_str);
-	len = (int)write(1, ret, ft_strlen(printf_str));
+    ret = ft_replace_empty_chars(printf_str, &fwp);
+	write(1, ret, fwp.counter);
 	if (printf_str != NULL)
 	{
 		ft_strdel(&printf_str);
-		ft_strdel(&ret);
+    	ft_strdel(&ret);
 	}
-	return (len);
+	return (fwp.counter);
 }

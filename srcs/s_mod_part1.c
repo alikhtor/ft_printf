@@ -43,11 +43,13 @@ static char		*ft_make_utf_str(wchar_t *utf, t_fwp *fwp)
 {
 	char		*ret;
 	char		*temp;
+    char        *tmp;
 
 	ret = ft_strnew(0);
 	while (*utf)
 	{
-		temp = ft_make_utf(*utf);
+		tmp = ret;
+        temp = ft_make_utf(*utf);
 		if (fwp->flag_precision && fwp->precision > 0)
 		{
 			if ((int)(ft_strlen(temp) + ft_strlen(ret)) > fwp->precision)
@@ -56,7 +58,8 @@ static char		*ft_make_utf_str(wchar_t *utf, t_fwp *fwp)
 				return (ret);
 			}
 		}
-		ret = ft_strjoin(ret, temp);
+        ret = ft_strjoin(tmp, temp);
+        ft_strdel(&tmp);
 		ft_strdel(&temp);
 		utf++;
 	}

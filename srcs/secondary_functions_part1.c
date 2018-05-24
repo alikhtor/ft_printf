@@ -61,23 +61,21 @@ char			*ft_make_utf(wint_t utf_val)
 	return (res);
 }
 
-char			*ft_replace_empty_chars(char *str)
+char			*ft_replace_empty_chars(char *str, t_fwp *fwp)
 {
 	char		*ret;
-	char		*temp;
+	int 		i;
 
-	ret = ft_strnew(ft_strlen(str));
-	temp = ret;
-	while (*str)
+    i = 0;
+	ret = ft_strnew(fwp->counter);
+	while (i < fwp->counter)
 	{
-		if (*str == -42)
-			*ret = 0;
+		if (str[i] == -42)
+			ret[i] = 0;
 		else
-			*ret = *str;
-		str++;
-		ret++;
+			ret[i] = str[i];
+        i++;
 	}
-	ret = temp;
 	return (ret);
 }
 
@@ -95,8 +93,16 @@ void			ft_copy_to_the_right_side_of_the_str(char **ret,
 
 void			ft_add_ch_to_the_ft_printf_str(char ch, char **str, t_fwp *fwp)
 {
-	if (!(*str))
-		*str = ft_strjoin(*str, ft_strnew(100));
+	char *temp;
+
+	temp = NULL;
+    if ((*str) == NULL)
+	{
+		temp = *str;
+		ft_strdel(str);
+		*str = ft_strjoin(temp, ft_strnew(100));
+		ft_strdel(&temp);
+	}
 	str[0][fwp->counter] = ch;
 	fwp->counter++;
 }
