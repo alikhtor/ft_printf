@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_of_specifieres_s_with_flag_mod_pa          :+:      :+:    :+:   */
+/*   s_mod_part1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/11 20:01:13 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/24 12:34:58 by alikhtor         ###   ########.fr       */
+/*   Created: 2018/05/26 16:42:57 by alikhtor          #+#    #+#             */
+/*   Updated: 2018/05/26 16:53:12 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ static char		*ft_make_utf_str(wchar_t *utf, t_fwp *fwp)
 {
 	char		*ret;
 	char		*temp;
-    char        *tmp;
+	char		*temp2;
 
 	ret = ft_strnew(0);
 	while (*utf)
 	{
-		tmp = ret;
-        temp = ft_make_utf(*utf);
+		temp = ft_make_utf(*utf);
 		if (fwp->flag_precision && fwp->precision > 0)
 		{
 			if ((int)(ft_strlen(temp) + ft_strlen(ret)) > fwp->precision)
@@ -58,15 +57,16 @@ static char		*ft_make_utf_str(wchar_t *utf, t_fwp *fwp)
 				return (ret);
 			}
 		}
-        ret = ft_strjoin(tmp, temp);
-        ft_strdel(&tmp);
+		temp2 = ret;
+		ret = ft_strjoin(temp2, temp);
+		ft_strdel(&temp2);
 		ft_strdel(&temp);
 		utf++;
 	}
 	return (ret);
 }
 
-void			ft_ls_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+void			ft_ls_specificator(va_list *ap, t_fwp *fwp)
 {
 	wchar_t		*utf;
 	char		*temp;
@@ -88,14 +88,12 @@ void			ft_ls_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
 	str_len = ft_strlen(temp);
 	temp2 = (fwp->width > str_len) ?\
 			ft_width(temp, str_len, fwp) : ft_strdup(temp);
+	fwp->counter += write(1, temp2, ft_strlen(temp2));
 	ft_strdel(&temp);
-	str_len = 0;
-	while (temp2[str_len] != '\0')
-		ft_add_ch_to_the_ft_printf_str(temp2[str_len++], printf_str, fwp);
 	ft_strdel(&temp2);
 }
 
-void			ft_s_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+void			ft_s_specificator(va_list *ap, t_fwp *fwp)
 {
 	char		*str;
 	char		*temp;
@@ -117,9 +115,7 @@ void			ft_s_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
 	str_len = ft_strlen(temp);
 	temp2 = (fwp->width > str_len) ?\
 			ft_width(temp, str_len, fwp) : ft_strdup(temp);
+	fwp->counter += write(1, temp2, ft_strlen(temp2));
 	ft_strdel(&temp);
-	str_len = 0;
-	while (temp2[str_len] != '\0')
-		ft_add_ch_to_the_ft_printf_str(temp2[str_len++], printf_str, fwp);
 	ft_strdel(&temp2);
 }

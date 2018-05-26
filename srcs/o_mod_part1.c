@@ -6,7 +6,7 @@
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/10 17:57:27 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 17:23:46 by alikhtor         ###   ########.fr       */
+/*   Updated: 2018/05/26 16:31:26 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,10 @@ static char		*ft_search_fwp_for_o_spec(char *temp_str, t_fwp *fwp)
 	return (temp);
 }
 
-void			ft_o_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+void			ft_o_specificator(va_list *ap, t_fwp *fwp)
 {
 	char		*temp_str;
 	char		*res_str;
-	int			i;
 
 	temp_str = ft_convert_u_o_x(ap, 8, fwp);
 	if (*temp_str == '0')
@@ -103,9 +102,7 @@ void			ft_o_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
 			fwp->flag_hashtag = 0;
 	}
 	res_str = ft_search_fwp_for_o_spec(temp_str, fwp);
+	fwp->counter += write(1, res_str, ft_strlen(res_str));
 	ft_strdel(&temp_str);
-	i = 0;
-	while (res_str[i] != '\0')
-		ft_add_ch_to_the_ft_printf_str(res_str[i++], printf_str, fwp);
 	ft_strdel(&res_str);
 }

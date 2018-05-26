@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_of_specifires_d_or_i_with_flag_mo          :+:      :+:    :+:   */
+/*   d_i_mod_part1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/10 14:50:54 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 17:07:59 by alikhtor         ###   ########.fr       */
+/*   Created: 2018/05/26 16:38:30 by alikhtor          #+#    #+#             */
+/*   Updated: 2018/05/26 16:38:37 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,14 @@ static char			*ft_convert_d_or_i(va_list *ap, t_fwp *fwp)
 						(int)va_arg(*ap, long long int)), fwp));
 }
 
-void				ft_d_or_i_specificator(char **printf_str,\
-		va_list *ap, t_fwp *fwp)
+void				ft_d_or_i_specificator(va_list *ap, t_fwp *fwp)
 {
-	char			*res_num_as_str;
-	char			*temp_str;
-	int				i;
+	char			*temp;
+	char			*ret;
 
-	temp_str = ft_make_singed_str(ft_convert_d_or_i(ap, fwp), fwp);
-	res_num_as_str = ft_search_fwp_for_d_or_i_spec(temp_str, fwp);
-	i = 0;
-	while (res_num_as_str[i] != '\0')
-		ft_add_ch_to_the_ft_printf_str(res_num_as_str[i++], printf_str, fwp);
-	ft_strdel(&res_num_as_str);
-	ft_strdel(&temp_str);
+	temp = ft_make_singed_str(ft_convert_d_or_i(ap, fwp), fwp);
+	ret = ft_search_fwp_for_d_or_i_spec(temp, fwp);
+	fwp->counter += write(1, ret, ft_strlen(ret));
+	ft_strdel(&ret);
+	ft_strdel(&temp);
 }

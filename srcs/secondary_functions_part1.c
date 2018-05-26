@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   secondary_functions.c                              :+:      :+:    :+:   */
+/*   secondary_functions_part1.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/10 16:29:39 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 17:40:38 by alikhtor         ###   ########.fr       */
+/*   Created: 2018/05/26 16:40:13 by alikhtor          #+#    #+#             */
+/*   Updated: 2018/05/26 16:40:16 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,6 @@ char			*ft_make_utf(wint_t utf_val)
 	return (res);
 }
 
-char			*ft_replace_empty_chars(char *str, t_fwp *fwp)
-{
-	char		*ret;
-	int 		i;
-
-    i = 0;
-	ret = ft_strnew(fwp->counter);
-	while (i < fwp->counter)
-	{
-		if (str[i] == -42)
-			ret[i] = 0;
-		else
-			ret[i] = str[i];
-        i++;
-	}
-	return (ret);
-}
-
 void			ft_copy_to_the_right_side_of_the_str(char **ret,
 	char *str, int size)
 {
@@ -89,20 +71,4 @@ void			ft_copy_to_the_right_side_of_the_str(char **ret,
 	temp = *ret;
 	temp += size - str_size;
 	ft_memcpy(temp, str, str_size);
-}
-
-void			ft_add_ch_to_the_ft_printf_str(char ch, char **str, t_fwp *fwp)
-{
-	char *temp;
-
-	temp = NULL;
-    if ((*str) == NULL)
-	{
-		temp = *str;
-		ft_strdel(str);
-		*str = ft_strjoin(temp, ft_strnew(100));
-		ft_strdel(&temp);
-	}
-	str[0][fwp->counter] = ch;
-	fwp->counter++;
 }

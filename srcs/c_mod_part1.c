@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_with_flag_mod_part1.c                            :+:      :+:    :+:   */
+/*   c_mod_part1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/26 12:58:20 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 16:50:08 by alikhtor         ###   ########.fr       */
+/*   Created: 2018/05/26 16:21:19 by alikhtor          #+#    #+#             */
+/*   Updated: 2018/05/26 16:26:52 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,50 +30,59 @@ static char		*ft_width(char *temp, int str_len, t_fwp *fwp)
 	return (ret);
 }
 
-void			ft_lc_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+static void		ft_print_char(char *str, t_fwp *fwp)
+{
+	int			i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		fwp->counter += (str[i] == -42) ? write(1, "\0", 1)\
+				: write(1, &str[i], 1);
+		i++;
+	}
+}
+
+void			ft_lc_specificator(va_list *ap, t_fwp *fwp)
 {
 	wint_t		utf;
 	char		ch;
 	char		*temp;
-	char		*temp2;
-	int			str_len;
+	char		*ret;
+	int			l;
 
-	if ((utf = va_arg(*ap, wint_t)) == 0)
+	if ((utf = va_arg(*ap, int)) == 0)
 	{
 		ch = -42;
 		temp = ft_strnew(1);
 		temp = ft_memcpy(temp, &ch, 1);
+		ret = (fwp->width > 1) ? ft_width(temp, 1, fwp) : ft_strdup(temp);
+		ft_print_char(ret, fwp);
 	}
 	else
+	{
 		temp = ft_make_utf(utf);
-	str_len = ft_strlen(temp);
-	temp2 = (fwp->width > str_len) ? ft_width(temp, str_len, fwp)\
-			: ft_strdup(temp);
+		l = ft_strlen(temp);
+		ret = (fwp->width > l) ? ft_width(temp, l, fwp) : ft_strdup(temp);
+		fwp->counter += write(1, ret, ft_strlen(ret));
+	}
 	ft_strdel(&temp);
-	str_len = 0;
-	while (temp2[str_len] != '\0')
-		ft_add_ch_to_the_ft_printf_str(temp2[str_len++], printf_str, fwp);
-	ft_strdel(&temp2);
+	ft_strdel(&ret);
 }
 
-void			ft_c_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+void			ft_c_specificator(va_list *ap, t_fwp *fwp)
 {
 	char		ch;
+	char		*temp;
 	char		*ret;
-	char		*ch_str;
-	int			str_len;
 
 	ch = (char)va_arg(*ap, int);
 	if (ch == 0)
 		ch = -42;
-	ch_str = ft_strnew(1);
-	ch_str = ft_memcpy(ch_str, &ch, 1);
-	str_len = ft_strlen(ch_str);
-	ret = (fwp->width > str_len) ? ft_width(ch_str, str_len, fwp)\
-			: ft_strdup(ch_str);
-	str_len = 0;
-	while (ret[str_len] != '\0')
-		ft_add_ch_to_the_ft_printf_str(ret[str_len++], printf_str, fwp);
+	temp = ft_strnew(1);
+	temp = ft_memcpy(temp, &ch, 1);
+	ret = (fwp->width > 1) ? ft_width(temp, 1, fwp) : ft_strdup(temp);
+	ft_print_char(ret, fwp);
+	ft_strdel(&temp);
 	ft_strdel(&ret);
-	ft_strdel(&ch_str);
 }

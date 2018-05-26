@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   o_u_x_with_flag_mod_part1.c                        :+:      :+:    :+:   */
+/*   u_mod_part1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/08 17:36:37 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/23 18:56:08 by alikhtor         ###   ########.fr       */
+/*   Created: 2018/05/26 16:45:27 by alikhtor          #+#    #+#             */
+/*   Updated: 2018/05/26 16:47:21 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,10 @@ static char		*ft_search_fwp_for_u_spec(char *temp_str, t_fwp *fwp)
 	return (ret);
 }
 
-void			ft_u_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
+void			ft_u_specificator(va_list *ap, t_fwp *fwp)
 {
 	char		*temp_str;
 	char		*res_str;
-	int			i;
 
 	temp_str = ft_convert_u_o_x(ap, 10, fwp);
 	if (*temp_str == '0' && fwp->flag_precision)
@@ -96,9 +95,7 @@ void			ft_u_specificator(char **printf_str, va_list *ap, t_fwp *fwp)
 		fwp->flag_precision = 0;
 	}
 	res_str = ft_search_fwp_for_u_spec(temp_str, fwp);
+	fwp->counter += write(1, res_str, ft_strlen(res_str));
 	ft_strdel(&temp_str);
-	i = 0;
-	while (res_str[i] != '\0')
-		ft_add_ch_to_the_ft_printf_str(res_str[i++], printf_str, fwp);
 	ft_strdel(&res_str);
 }
