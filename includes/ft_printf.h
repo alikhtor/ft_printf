@@ -6,7 +6,7 @@
 /*   By: alikhtor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 16:22:46 by alikhtor          #+#    #+#             */
-/*   Updated: 2018/05/26 16:49:04 by alikhtor         ###   ########.fr       */
+/*   Updated: 2018/05/30 16:42:05 by alikhtor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <locale.h>
 # include <wchar.h>
-# include "../lib/libft/libft.h"
+# include "../libft/includes/libft.h"
 
 typedef struct		s_flags_width_precision
 {
